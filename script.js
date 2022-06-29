@@ -3,25 +3,38 @@ const loader = document.getElementById('loader')
 
 let photosArray = []
 // Unsplash API
-const count = 10
+const count = 20
 const apiKey = 'P5AbbnyFKm3iOJS_igPqgBxAxgKduEdwJ-AL72F77Ow'
 const apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${count}`
 
-// creating Elements for LInks and Photos and DOM
+// helper function
 
+function setAttributes(element, attributes) {
+    for (const key in attributes) {
+        element.setAttribute(key, attributes[key]);
+    }
+}
+
+// creating Elements for LInks and Photos and DOM
 function displayPhotos() {
     // Running function for each object in photosArray
     photosArray.forEach((photo) => {
         // creating anchor elements to link to unsplash
         const item = document.createElement('a')
-        item.setAttribute('href', photo.links.html)
-        item.setAttribute('target', '_blank');
+        // item.setAttribute('href', photo.links.html)
+        // item.setAttribute('target', '_blank');
+        setAttributes(item, {
+            href: photo.links.html,
+            target: '_blank',
+        })
 
         //creating img for photos 
         const img = document.createElement('img')
-        item.setAttribute('src', photo.urls.regular)
-        item.setAttribute('alt', photo.alt_description)
-        item.setAttribute('title', photo.alt_description)
+        setAttributes(img, {
+            src: photo.urls.regular,
+            alt: photo.alt_description,
+            title: photo.alt_description,
+        })
 
         // Put Img tag inside Anchor, then both tags under image container
         item.appendChild(img)
@@ -42,6 +55,13 @@ async function getPhotos(){
         // catch error
     }
 }
+
+// Check if scrolling near bottom of page and Loading more photos
+window.addEventListener('scroll', () => {
+    console.log('scrolled');
+})
+
+
 
 // onLoad
 getPhotos();
